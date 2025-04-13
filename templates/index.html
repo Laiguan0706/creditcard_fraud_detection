@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            max-width: 100%;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        p {
+            margin-top: 16px;
+            color: #333;
+            font-weight: bold;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fraud Detection</h1>
+
+    <form method="post" action="/" onsubmit="return validateForm();">
+        <label for="amt">Amount:</label>
+        <input type="text" name="amt" pattern="[0-9]+(\.[0-9]+)?" title="請輸入正確數字" required>
+
+        <label for="lat">Latitude:</label>
+        <input type="text" name="lat" required>
+
+        <label for="long">Longitude:</label>
+        <input type="text" name="long" required>
+
+        <label for="city_pop">City Population:</label>
+        <input type="text" name="city_pop" required>
+
+        <label for="hour">Hour:</label>
+        <input type="text" name="hour" required>
+
+        <label for="minute">Minute:</label>
+        <input type="text" name="minute" required>
+
+        <label for="second">Second:</label>
+        <input type="text" name="second" required>
+
+        <label for="year">Year:</label>
+        <input type="text" name="year" required>
+
+        <label for="month">Month:</label>
+        <input type="text" name="month" required>
+
+        <label for="day">Day:</label>
+        <input type="text" name="day" required>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction is not none %}
+    <p>
+        {% if prediction == 1 %}
+            <span style="color: red;">此筆交易疑似異常</span>
+        {% else %}
+            此筆交易為正常交易
+        {% endif %}
+    </p>
+    {% endif %}
+
+
+    <script>
+        function validateForm() {
+            var amtField = document.getElementsByName('amt')[0];
+            var amtValue = amtField.value;
+
+            if (amtValue.trim() === "") {
+                alert("欄位不可為空");
+                return false;
+            }
+
+            if (!/^\d+(\.\d+)?$/.test(amtValue)) {
+                alert("請輸入正確文字");
+                return false;
+            }
+
+            // 检查中文字符
+            var chinesePattern = /[\u4E00-\u9FA5]/;
+
+            if (chinesePattern.test(amtValue)) {
+                alert("請不要輸入中文字符");
+                return false;
+            }
+
+            var latField = document.getElementsByName('lat')[0];
+            var longField = document.getElementsByName('long')[0];
+            var cityPopField = document.getElementsByName('city_pop')[0];
+            var hourField = document.getElementsByName('hour')[0];
+            var minuteField = document.getElementsByName('minute')[0];
+            var secondField = document.getElementsByName('second')[0];
+            var yearField = document.getElementsByName('year')[0];
+            var monthField = document.getElementsByName('month')[0];
+            var dayField = document.getElementsByName('day')[0];
+
+            // 可以在这里添加其他字段的验证...
+
+            return true;
+        }
+    </script>
+</body>
+</html>
